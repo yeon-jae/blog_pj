@@ -31,6 +31,7 @@ function App() {
       <Route path="/posts/new" element={<h1>Post New Page</h1>} />
       <Route path="/posts/edit/:id" element={<h1>Post Edit Page</h1>} />
       <Route path="/profile" element={<h1>Profile Page</h1>} />
+      <Route path="*" element={<Navigate replace to="/" />} />
     </Routes>
   );
 }
