@@ -21,7 +21,7 @@ export default function Home() {
               <div className="post__profile-box">
                 <div className="post__profile"></div>
                 <div className="post__author-name">글쓴이</div>
-                <div className="post_date">2024.03.22</div>
+                <div className="post__date">2024.03.22</div>
               </div>
               <div className="post__title"> 게시글{index}</div>
               <div className="post__text">
@@ -32,8 +32,10 @@ export default function Home() {
                 quis quo, expedita illo deleniti ipsum quae et error laboriosam,
                 placeat enim voluptas architecto ipsam. Commodi.
               </div>
-              <div className="post__edit">수정</div>
-              <div className="post__delete">삭제</div>
+              <div className="post__utils-box">
+                <div className="post__edit">수정</div>
+                <div className="post__delete">삭제</div>
+              </div>
             </Link>
           </div>
         ))}
