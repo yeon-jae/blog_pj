@@ -42,8 +42,49 @@ footer {
   justify-content: center;
   gap: 20px;
 }
+footer a {
+  margin: 0px 10px;
+  text-decoration: none;
+  color: gray;
+}
+footer a:focus,
+footer a:hover {
+  color: black;
+}
 
+/*글 내비 */
+.post__navigation {
+  display: flex;
+  gap: 15px;
+  margin: 0 auto;
+  max-width: 680px;
+  font-size: 16px;
+  color: gray;
+  cursor: pointer;
+  padding: 48px 20px 0px 20px;
+}
+.post__navigation--active {
+  color: black;
+  font-weight: 600;
+}
+
+/*post_list*/
 .post__list {
   min-height: 90vh;
   text-align: center;
+  padding: 20px;
+  max-width: 680px;
+  margin: 0 auto;
+  text-align: left;
+  line-height: 25px;
+}
+.post__list a {
+  text-decoration: none;
+  color: black;
+}
+
+.post__box {
+  padding-top: 24px;
+  padding-bottom: 24px;
+  border-top: 1px solie #f2f2f2;
 }
