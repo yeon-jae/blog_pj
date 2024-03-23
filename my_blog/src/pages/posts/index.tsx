@@ -1,3 +1,13 @@
+import Footer from "../../components/Footer";
+import Header from "../../components/Header";
+import PostList from "../../components/PostList";
+
 export default function PostsList() {
-  return <h1>Post List Page</h1>;
+  return (
+    <>
+      <Header />
+      <PostList hasNavigation={false} />
+      <Footer />
+    </>
+  );
 }
