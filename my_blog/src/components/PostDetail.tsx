@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 export default function PostDetail() {
   return (
     <div className="post__detail">
@@ -11,7 +12,9 @@ export default function PostDetail() {
           <div className="post__date">2024.03.22</div>
         </div>
         <div className="post__utils-box">
-          <div className="post__edit">수정</div>
+          <div className="post__edit">
+            <Link to={`/posts/edit/1`}>수정</Link>
+          </div>
           <div className="post__delete">삭제</div>
         </div>
         <div className="post__text">
