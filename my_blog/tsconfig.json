@@ -22,6 +22,7 @@
   //해당 모듈과 파일 경로
   "paths": {
     "pages/*": ["pages/*"],
-    "components/*": ["component/*"]
+    "components/*": ["component/*"],
+    "firebaseApp/*": ["firebaseApp/*"]
   }
 }
