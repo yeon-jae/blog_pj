@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import { Route, Routes, Navigate } from "react-router-dom";
 import Home from "pages/home";
 import PostsList from "pages/posts";
@@ -9,10 +7,12 @@ import PostsEdit from "pages/posts/edit";
 import ProfilePage from "pages/profile";
 import Login from "pages/login";
 import Signup from "pages/singup";
+interface RouterProps {
+  isAuthenticated: boolean;
+}
 
-export default function Router() {
+export default function Router({ isAuthenticated }: RouterProps) {
   //firebase Auth가 인증되었다면 true로 변경해주는 로직 추가
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   return (
     <>
       <Routes>
