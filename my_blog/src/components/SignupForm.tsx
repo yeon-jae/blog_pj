@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { app } from "firebaseApp";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
 export default function SignupForm() {
   const [error, setError] = useState<string>("");
@@ -7,11 +9,22 @@ export default function SignupForm() {
   const [password, setPassword] = useState<string>("");
   const [passwordConfirm, setPasswordConfirm] = useState<string>("");
 
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      const auth = getAuth(app);
+      await createUserWithEmailAndPassword(auth, email, password);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const {
       target: { name, value },
     } = e;
     if (name === "email") {
+      setEmail(value);
       const valieRegex =
         /^[A-Za-z0-9.!#$%&'*+/=?^_`{|}~-]+@[A-Za-z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
       if (!value?.match(valieRegex)) {
@@ -42,7 +55,7 @@ export default function SignupForm() {
     }
   };
   return (
-    <form action="/post" method="POST" className="form form--lg">
+    <form onSubmit={onSubmit} method="POST" className="form form--lg">
       <h1 className="form__title">회원가입</h1>
       <div className="form__block">
         <label htmlFor="email">이메일</label>
