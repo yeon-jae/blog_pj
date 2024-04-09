@@ -1,26 +1,29 @@
 import { app } from "firebaseApp";
 import { getAuth, signOut } from "firebase/auth";
 import { toast } from "react-toastify";
+import { useContext } from "react";
+import AuthContext from "context/AuthContext";
+
+const onSingOut = async () => {
+  try {
+    const auth = getAuth(app);
+    await signOut(auth);
+    toast.success("로그아웃 되었습니다.");
+  } catch (error: any) {
+    console.log(error);
+    toast.error(error?.code);
+  }
+};
 export default function Profile() {
-  const onSingOut = async () => {
-    try {
-      const auth = getAuth(app);
-      await signOut(auth);
-      toast.success("로그아웃 되었습니다.");
-    } catch (error: any) {
-      console.log(error);
-      toast.error(error?.code);
-    }
-  };
-  const auth = getAuth(app);
+  const { user } = useContext(AuthContext);
   return (
     <div className="profile__box">
       <div className="flex__box-lg">
         <div className="profile__image" />
         <div>
-          <div className="profile__email">{auth?.currentUser?.email}</div>
+          <div className="profile__email">{user?.email}</div>
           <div className="profile__name">
-            {auth?.currentUser?.displayName || "사용자"}
+            {user?.displayName || "광나루맛zip"}
           </div>
         </div>
       </div>
