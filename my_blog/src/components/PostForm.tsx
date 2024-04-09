@@ -1,4 +1,15 @@
+import { useState } from "react";
 export default function PostForm() {
+  const [title, setTitle] = useState<string>("");
+  const [summary, setSummary] = useState<string>("");
+  const [content, setContent] = useState<string>("");
+
+  const onChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const{target:{name,value},e;}
+  };
+
   return (
     <form action="/post" method="POST" className="form">
       <div className="form__block">
@@ -10,7 +21,7 @@ export default function PostForm() {
         <input type="text" name="summary" id="summary" required />
       </div>
       <div className="form__block">
-        <label htmlFor="title">내용</label>
+        <label htmlFor="content">내용</label>
         <textarea name="content" id="content" required />
       </div>
       <div className="form__block">
