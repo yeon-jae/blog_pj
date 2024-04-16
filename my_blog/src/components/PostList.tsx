@@ -41,6 +41,8 @@ export default function PostList({ hasNavigation = true }: PostListProps) {
     }
   };
 
+  console.log(posts);
+
   useEffect(() => {
     getPosts();
   }, []);
