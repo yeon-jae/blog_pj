@@ -23,7 +23,7 @@ export default function PostDetail() {
 
   useEffect(() => {
     if (params?.id) getPost(params?.id);
-  }, []);
+  }, [params?.id]);
 
   return (
     <div className="post__detail">
