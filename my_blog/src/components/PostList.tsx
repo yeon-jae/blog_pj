@@ -12,13 +12,14 @@ import { db } from "firebaseApp";
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+
 interface PostListProps {
   hasNavigation?: boolean;
-  defaultTab?: TabType;
+  defaultTab?: TabType|CategoryType;
 }
 
 //전체 나의글 만들기
-type TabType = "all" | "my";
+
 export interface PostProps {
   id?: string;
   title: string;
@@ -28,12 +29,23 @@ export interface PostProps {
   createdAt: string;
   updatedAt: string;
   uid: string;
+  category: CategoryType;
 }
+//category select사용하기 위해서
+type TabType = "all" | "my";
+export type CategoryType = "Frontend" | "Backend" | "CS" | "ALGOL";
+export const CATEGORIES: CategoryType[] = [
+  "Frontend",
+  "Backend",
+  "CS",
+  "ALGOL",
+];
+
 export default function PostList({
   hasNavigation = true,
   defaultTab = "all",
 }: PostListProps) {
-  const [activeTab, setActiveTab] = useState<TabType>(defaultTab);
+  const [activeTab, setActiveTab] = useState<TabType|CategoryType>(defaultTab);
   const [posts, setPosts] = useState<PostProps[]>([]);
   const { user } = useContext(AuthContext);
   const getPosts = async () => {
@@ -47,9 +59,12 @@ export default function PostList({
         where("uid", "==", user.uid),
         orderBy("createdAt", "asc")
       );
-    } else {
+    } else if(activeTab==="all") {
       //모든글 보여주기
       postsQuery = query(postsRef, orderBy("createdAt", "asc"));
+    }else{
+      //카테고리글 보여주기 
+      postsQuery = query(postsRef,where("category","==",activeTab),orderBy("createdAt", "asc"));
     }
     const datas = await getDocs(postsQuery);
     datas?.forEach((doc) => {
@@ -65,8 +80,6 @@ export default function PostList({
       getPosts(); //변경된 내용을 불러오도록 함
     }
   };
-
-  console.log(posts);
 
   useEffect(() => {
     getPosts();
@@ -91,6 +104,14 @@ export default function PostList({
           >
             나의 글
           </div>
+          {CATEGORIES?.map((category)=>(
+            <div
+              role="presentation"
+              onClick={() => setActiveTab("my")}
+              className={activeTab === "my" ? "post__navigation--active" : ""}
+  
+            >
+          ))}
         </div>
       )}
 
