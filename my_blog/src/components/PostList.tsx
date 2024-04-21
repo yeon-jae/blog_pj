@@ -15,10 +15,8 @@ import { toast } from "react-toastify";
 
 interface PostListProps {
   hasNavigation?: boolean;
-  defaultTab?: TabType|CategoryType;
+  defaultTab?: TabType | CategoryType;
 }
-
-//전체 나의글 만들기
 
 export interface PostProps {
   id?: string;
@@ -31,7 +29,7 @@ export interface PostProps {
   uid: string;
   category: CategoryType;
 }
-//category select사용하기 위해서
+
 type TabType = "all" | "my";
 export type CategoryType = "Frontend" | "Backend" | "CS" | "ALGOL";
 export const CATEGORIES: CategoryType[] = [
@@ -45,9 +43,12 @@ export default function PostList({
   hasNavigation = true,
   defaultTab = "all",
 }: PostListProps) {
-  const [activeTab, setActiveTab] = useState<TabType|CategoryType>(defaultTab);
+  const [activeTab, setActiveTab] = useState<TabType | CategoryType>(
+    defaultTab
+  );
   const [posts, setPosts] = useState<PostProps[]>([]);
   const { user } = useContext(AuthContext);
+
   const getPosts = async () => {
     setPosts([]);
     let postsRef = collection(db, "posts");
@@ -59,31 +60,34 @@ export default function PostList({
         where("uid", "==", user.uid),
         orderBy("createdAt", "asc")
       );
-    } else if(activeTab==="all") {
-      //모든글 보여주기
+    } else if (activeTab === "all") {
       postsQuery = query(postsRef, orderBy("createdAt", "asc"));
-    }else{
-      //카테고리글 보여주기 
-      postsQuery = query(postsRef,where("category","==",activeTab),orderBy("createdAt", "asc"));
+    } else {
+      //카테고리 글 보여주기
+      postsQuery = query(
+        postsRef,
+        where("category", "==", activeTab),
+        orderBy("createdAt", "asc")
+      );
     }
     const datas = await getDocs(postsQuery);
-    datas?.forEach((doc) => {
+    datas.forEach((doc) => {
       const dataObj = { ...doc.data(), id: doc.id };
       setPosts((prev) => [...prev, dataObj as PostProps]);
     });
   };
+
   const handleDelete = async (id: string) => {
-    const confirm = window.confirm("게시글을 정말 삭제하시겠습니까?");
-    if (confirm && id) {
+    const confirmDelete = window.confirm("게시글을 정말 삭제하시겠습니까?");
+    if (confirmDelete && id) {
       await deleteDoc(doc(db, "posts", id));
       toast.success("게시글을 삭제했습니다.");
-      getPosts(); //변경된 내용을 불러오도록 함
+      getPosts();
     }
   };
 
   useEffect(() => {
     getPosts();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeTab]);
 
   return (
@@ -104,33 +108,36 @@ export default function PostList({
           >
             나의 글
           </div>
-          {CATEGORIES?.map((category)=>(
+          {CATEGORIES.map((category) => (
             <div
+              key={category}
               role="presentation"
-              onClick={() => setActiveTab("my")}
-              className={activeTab === "my" ? "post__navigation--active" : ""}
-  
+              onClick={() => setActiveTab(category)}
+              className={
+                activeTab === category ? "post__navigation--active" : ""
+              }
             >
+              {category}
+            </div>
           ))}
         </div>
       )}
 
       <div className="post__list">
-        {posts?.length > 0 ? (
-          posts?.map((post, index) => (
-            <div key={post?.id} className="post__box">
-              <Link to={`/posts/${post?.id}`}>
-                {/**프로필 만들기 */}
+        {posts.length > 0 ? (
+          posts.map((post) => (
+            <div key={post.id} className="post__box">
+              <Link to={`/posts/${post.id}`}>
                 <div className="post__profile-box">
                   <div className="post__profile"></div>
-                  <div className="post__author-name">{post?.email}</div>
-                  <div className="post__date">{post?.createdAt}</div>
+                  <div className="post__author-name">{post.email}</div>
+                  <div className="post__date">{post.createdAt}</div>
                 </div>
-                <div className="post__title"> {post?.title}</div>
-                <div className="post__text">{post?.summary}</div>
+                <div className="post__title"> {post.title}</div>
+                <div className="post__text">{post.summary}</div>
               </Link>
 
-              {post?.email === user?.email && (
+              {post.email === user?.email && (
                 <div className="post__utils-box">
                   <div
                     className="post__delete"
@@ -139,8 +146,7 @@ export default function PostList({
                   >
                     삭제
                   </div>
-
-                  <Link to={`/posts/edit/${post?.id}`} className="post__edit">
+                  <Link to={`/posts/edit/${post.id}`} className="post__edit">
                     수정
                   </Link>
                 </div>

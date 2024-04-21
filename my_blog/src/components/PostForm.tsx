@@ -12,7 +12,7 @@ export default function PostForm() {
   const [title, setTitle] = useState<string>("");
   const [summary, setSummary] = useState<string>("");
   const [content, setContent] = useState<string>("");
-  const [category, setCategory] = useState<CategoryType | string>("Frontend");
+  const [category, setCategory] = useState<CategoryType>("Frontend");
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -158,7 +158,7 @@ export default function PostForm() {
       <div className="form__block">
         <input
           type="submit"
-          value={post ? "수정" : "제출"}
+          value={post ? "수정" : "저장"}
           className="form__btn--submit"
         />
       </div>
